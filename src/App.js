@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import './App.css';
 import ProductList from "./ProductList/ProductList";
 import AddProductModal from "./AddProductModal/AddProductModal";
+import EditCategory from "./EditCategory/EditCategory";
+import FilterProducts from "./FilterProducts/FilterProducts";
 
 import {v4 as uuidv4} from 'uuid';
 
@@ -23,6 +25,17 @@ class App extends Component {
                 }]
             })
         }
+        this.onEditCategory = (category) => {
+            this.setState({
+                categories: this.state.categories.map(stateCategories => {
+                    if (category.id === stateCategories.id) {
+                        return category;
+                    } else {
+                        return stateCategories;
+                    }
+                })
+            })
+        }
         this.onEditProduct = (product) => {
             this.setState({
                 products: this.state.products.map(stateProduct => {
@@ -33,6 +46,9 @@ class App extends Component {
                     }
                 })
             })
+        }
+        this.onFilterByName = () => {
+
         }
         this.state = {
             categories: [
@@ -75,7 +91,21 @@ class App extends Component {
         return (
             <div className="App">
                 <hr/>
-                <AddProductModal products={this.state.products} onAddProduct={this.onAddProduct} categories={this.state.categories}/>
+                <AddProductModal products={this.state.products} onAddProduct={this.onAddProduct}
+                                 categories={this.state.categories}/>
+                <hr/>
+                <EditCategory categories={this.state.categories} onEditCategory={this.onEditCategory}/>
+                <hr/>
+                <button
+                    onClick={() => this.setState({products: [...this.state.products].sort((a, b) => a.name.localeCompare(b.name))})
+                    }>Filter by Name
+                </button>
+                <button
+                    // onClick={() => this.setState({products: [...this.state.products].sort((a, b) => this.state.categories.map(item => item.id == a.category ? item.name : false)[0].toString().localeCompare(this.state.categories.map(item => item.id == b.category ? item.name : false)[0].toString()))})}
+                    onClick={() => this.setState({products: [...this.state.products].sort((a, b) => a.category.toString().localeCompare(b.category.toString()))})}
+                    >Filter
+                    by Category
+                </button>
                 <hr/>
                 <ProductList
                     products={this.state.products}
@@ -83,7 +113,11 @@ class App extends Component {
                     onDeleteProduct={this.onDeleteProduct}
                     onEditProduct={this.onEditProduct}
                 />
-                <button onClick={()=>console.log(this.state.products)}>Check Products State</button>
+                <button onClick={() => {
+                    console.log(this.state.products);
+                    console.log(this.state.categories);
+                }}>Check Products State
+                </button>
             </div>
         );
     }

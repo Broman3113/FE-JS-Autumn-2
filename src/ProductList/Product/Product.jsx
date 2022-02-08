@@ -12,13 +12,7 @@ class Product extends Component {
             },
         }
         this.handleChange = (event) => {
-            console.log(event.target.value);
-            this.setState({phoneObj: {...this.state.phoneObj, category: event.target.value}});
-            console.log(this.state.phoneObj);
-            this.props.onEditProduct({id: this.props.product.id, ...this.state.phoneObj});
-        }
-        this.editValue = (e) => {
-
+            this.props.onEditProduct({id: this.props.product.id, ...this.state.phoneObj, category: parseInt(event.target.value)});
         }
     }
 
@@ -28,15 +22,16 @@ class Product extends Component {
                 <td>{this.props.index + 1 || " - "}</td>
                 <td onClick={()=>this.setState({isEdit1: true})}>
                     {this.state.isEdit1 ? <input
+                        autoFocus={true}
                         onBlur={(e)=>{
-                        this.setState({isEdit1: false, phoneObj: {...this.state.phoneObj, name: e.target.value}});
+                        this.setState({isEdit1: false});
                         this.props.onEditProduct({id: this.props.product.id, ...this.state.phoneObj});
                         }}
                         onChange={(e) => this.setState({phoneObj: {...this.state.phoneObj, name: e.target.value}})}
                         value={this.state.phoneObj.name}/> : this.state.phoneObj.name}</td>
 
                 {/*<td>{this.props.categories.filter(category => category.id == this.props.product.category)[0].name || " - "}</td>*/}
-                <td><select name="category" id="category" value={this.state.phoneObj.category}
+                <td><select name="category" id="category" value={this.props.product.category}
                             onChange={this.handleChange}>
                     <option value="-">-</option>
                     {this.props.categories.map(category => <option value={category.id} selected={category.id == this.state.phoneObj.category}>{category.name}</option>)}
@@ -44,6 +39,7 @@ class Product extends Component {
 
                 <td onClick={()=>this.setState({isEdit3: true})}>
                     {this.state.isEdit3 ? <input
+                        autoFocus={true}
                         onBlur={(e)=>{
                             this.setState({isEdit3: false, phoneObj: {...this.state.phoneObj, color: e.target.value}});
                             this.props.onEditProduct({id: this.props.product.id, ...this.state.phoneObj});

@@ -11,7 +11,7 @@ class AddProductModal extends Component {
         }
         this.handleChange = (event) => {
             console.log(event.target.value)
-            this.setState({category: event.target.value});
+            this.setState({category: +event.target.value});
         }
         this.onSubmitForm = (e) => {
             e.preventDefault();
