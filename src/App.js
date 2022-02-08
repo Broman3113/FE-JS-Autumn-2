@@ -3,7 +3,6 @@ import './App.css';
 import ProductList from "./ProductList/ProductList";
 import AddProductModal from "./AddProductModal/AddProductModal";
 import EditCategory from "./EditCategory/EditCategory";
-import FilterProducts from "./FilterProducts/FilterProducts";
 
 import {v4 as uuidv4} from 'uuid';
 
