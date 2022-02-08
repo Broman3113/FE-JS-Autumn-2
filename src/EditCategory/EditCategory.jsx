@@ -29,7 +29,7 @@ class EditCategory extends React.Component {
                         {this.props.categories.map(category => <option value={[category.id,category.name]}>{category.name}</option>)}
                     </select>
                     <input type="text" value={this.state.name} onChange={e => this.setState({name: e.target.value})}/>
-                    <button>Add</button>
+                    <button>Apply</button>
                 </form>
             </div>
         )
