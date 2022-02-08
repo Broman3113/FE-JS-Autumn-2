@@ -6,16 +6,17 @@ class ProductList extends Component {
         return (
             <table>
                 <tbody>
-                    {this.props.products.map((product, index) => <Product
-                        key={product.id}
-                        product={product}
-                        index={index}
-                        onDeleteProduct={this.props.onDeleteProduct}
-                    />)}
+                {this.props.products.map((product, index) => <Product
+                    key={product.id}
+                    product={product}
+                    categories={this.props.categories}
+                    index={index}
+                    onDeleteProduct={this.props.onDeleteProduct}
+                    onEditProduct={this.props.onEditProduct}
+                />)}
                 </tbody>
             </table>
         )
     }
 }
-
-export default ProductList;
+export default ProductList
