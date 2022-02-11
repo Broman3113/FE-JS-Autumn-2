@@ -29,10 +29,12 @@ class AddProductModal extends Component {
                     <input onBlur={(e) => this.setState({name: e.target.value})} type="text"/>
 
                     <p>Enter Category</p>
-                    <select name="category" id="category" value={this.state.category}
+                    <select name="category" id="category"
+                            value={this.state.category}
                             onChange={this.handleChange}>
                         <option value="-">-</option>
-                        {this.props.categories.map(category => <option value={category.id}>{category.name}</option>)}
+                        {this.props.categories.map(category => <option key={category.id}
+                                                                       value={category.id}>{category.name}</option>)}
                     </select>
 
                     <p>Enter Color</p>
