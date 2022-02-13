@@ -1,58 +1,71 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import './Product.css'
 
-class Product extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            phoneObj: {
-                category: this.props.product?.category || '',
-                name: this.props.product?.name || '',
-                color: this.props.product?.color || '',
-            },
-        }
-        this.handleChange = (event) => {
-            this.props.onEditProduct({id: this.props.product.id, ...this.state.phoneObj, category: parseInt(event.target.value)});
-        }
+const Product = (props) => {
+    const [category, setCategory] = useState(props.product?.category || '');
+    const [name, setName] = useState(props.product?.name || '');
+    const [color, setColor] = useState(props.product?.color || '');
+
+    const [isEdit1, setIsEdit1] = useState(false);
+    const [isEdit3, setIsEdit3] = useState(false);
+
+    const handleChange = (event) => {
+        props.onEditProduct({
+            id: props.product.id,
+            category: parseInt(event.target.value),
+            name,
+            color,
+        });
     }
 
-    render() {
-        return (
-            <tr>
-                <td>{this.props.index + 1 || " - "}</td>
-                <td onClick={()=>this.setState({isEdit1: true})}>
-                    {this.state.isEdit1 ? <input
-                        autoFocus={true}
-                        onBlur={(e)=>{
-                        this.setState({isEdit1: false});
-                        this.props.onEditProduct({id: this.props.product.id, ...this.state.phoneObj});
-                        }}
-                        onChange={(e) => this.setState({phoneObj: {...this.state.phoneObj, name: e.target.value}})}
-                        value={this.state.phoneObj.name}/> : this.state.phoneObj.name}</td>
 
-                {/*<td>{this.props.categories.filter(category => category.id == this.props.product.category)[0].name || " - "}</td>*/}
-                <td><select name="category" id="category" value={this.props.product.category}
-                            onChange={this.handleChange}>
+    return (
+        <tr>
+            <td>{props.index + 1 || " - "}</td>
+            <td onClick={() => setIsEdit1(true)}>
+                {isEdit1 ? <input
+                    autoFocus={true}
+                    onBlur={(e) => {
+                        setIsEdit1(false);
+                        props.onEditProduct({
+                            id: props.product.id,
+                            name,
+                            color,
+                            category,
+                        });
+                    }}
+                    onChange={(e) => {
+                        setName(e.target.value);
+                    }}
+                    value={name}/> : name}</td>
+
+            {/*<td>{this.props.categories.filter(category => category.id == this.props.product.category)[0].name || " - "}</td>*/}
+            <td>
+                <select name="category" id="category" value={props.product.category}
+                        onChange={handleChange}>
                     <option value="-">-</option>
-                    {this.props.categories.map(category => <option value={category.id} selected={category.id == this.state.phoneObj.category}>{category.name}</option>)}
-                </select></td>
+                    {props.categories.map(categoryItem => <option key={categoryItem.id}
+                                                                   value={categoryItem.id}
+                                                                   selected={categoryItem.id === category}>{categoryItem.name}</option>)}
+                </select>
+            </td>
 
-                <td onClick={()=>this.setState({isEdit3: true})}>
-                    {this.state.isEdit3 ? <input
-                        autoFocus={true}
-                        onBlur={(e)=>{
-                            this.setState({isEdit3: false, phoneObj: {...this.state.phoneObj, color: e.target.value}});
-                            this.props.onEditProduct({id: this.props.product.id, ...this.state.phoneObj});
-                        }}
-                        onChange={(e) => this.setState({phoneObj: {...this.state.phoneObj, color: e.target.value}})}
-                        value={this.state.phoneObj.color}/> : this.state.phoneObj.color}</td>
+            <td onClick={() => setIsEdit3(true)}>
+                {isEdit3 ? <input
+                    autoFocus={true}
+                    onBlur={(e) => {
+                        setIsEdit3(false);
+                        setColor(e.target.value);
+                        props.onEditProduct({id: props.product.id, category, name, color});
+                    }}
+                    onChange={(e) => setColor(e.target.value)}
+                    value={color}/> : color}</td>
 
-                <td>
-                    <button onClick={() => this.props.onDeleteProduct(this.props.product.id)}>Delete</button>
-                </td>
-            </tr>
-        )
-    }
+            <td>
+                <button onClick={() => props.onDeleteProduct(props.product.id)}>Delete</button>
+            </td>
+        </tr>
+    )
 }
 
 export default Product;
