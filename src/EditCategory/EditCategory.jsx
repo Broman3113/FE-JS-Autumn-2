@@ -1,45 +1,42 @@
-import React from "react"
+import React, {useCallback, useState} from "react"
 
-class EditCategory extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: '',
-            name: ''
-        }
-        this.handleChange = (event) => {
-            this.setState({id: +event.target.value.split(',')[0]});
-            this.setState({name: event.target.value.split(',')[1]});
-            console.log(event.target.value.split(',')[1]);
-            console.log(this.state);
-        }
+const EditCategory = (props) => {
+    const [id, setId] = useState(+'');
+    const [name, setName] = useState('');
+
+    const onSubmitForm = (e) => {
+        e.preventDefault();
+        props.onEditCategory({id, name})
+        console.log({id, name});
     }
 
-    render() {
-        return (
-            <div>
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    this.props.onEditCategory({...this.state})
-                    console.log({...this.state});
-                }}>
-                    <p>Select Category</p>
-                    <select name="category"
-                            id="category"
-                            value={this.props.categories.id}
-                            onChange={this.handleChange}>
-                        <option value="-">-</option>
-                        {this.props.categories.map(category => <option key={category.id}
-                                                                       value={[category.id, category.name]}>{category.name}</option>)}
-                    </select>
-                    <input type="text"
-                           value={this.state.name}
-                           onChange={e => this.setState({name: e.target.value})}/>
-                    <button>Apply</button>
-                </form>
-            </div>
-        )
-    }
+    const onSelectChange = useCallback((event) => {
+        setId(+event.target.value.split(',')[0]);
+        setName(event.target.value.split(',')[1]);
+        console.log(event.target.value.split(',')[1]);
+        console.log(id, name);
+    }, [id, name, setId, setName])
+
+    return (
+        <div>
+            <form onSubmit={onSubmitForm}>
+                <p>Select Category</p>
+                <select name="category"
+                        id="category"
+                        value={props.categories.id}
+                        onChange={onSelectChange}>
+                    <option value="-">-</option>
+                    {props.categories.map(category => <option key={category.id}
+                                                              value={[category.id, category.name]}>{category.name}</option>)}
+                </select>
+                <input type="text"
+                       value={name}
+                       onChange={e => setName(e.target.value)}/>
+                <button>Apply</button>
+            </form>
+        </div>
+    )
+
 }
 
 export default EditCategory;
