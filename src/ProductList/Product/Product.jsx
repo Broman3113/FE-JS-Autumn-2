@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import './Product.css'
 
 const Product = (props) => {
@@ -9,14 +9,23 @@ const Product = (props) => {
     const [isEdit1, setIsEdit1] = useState(false);
     const [isEdit3, setIsEdit3] = useState(false);
 
-    const handleChange = (event) => {
+    const handleChange = useCallback((event) => {
         props.onEditProduct({
             id: props.product.id,
             category: parseInt(event.target.value),
             name,
             color,
         });
-    }
+    }, [props, color, name])
+    const onBlurEvent = useCallback((setIsEdit) => {
+        setIsEdit(false);
+        props.onEditProduct({
+            id: props.product.id,
+            category,
+            name,
+            color,
+        });
+    }, [category, color, name, props])
 
 
     return (
@@ -25,18 +34,8 @@ const Product = (props) => {
             <td onClick={() => setIsEdit1(true)}>
                 {isEdit1 ? <input
                     autoFocus={true}
-                    onBlur={(e) => {
-                        setIsEdit1(false);
-                        props.onEditProduct({
-                            id: props.product.id,
-                            name,
-                            color,
-                            category,
-                        });
-                    }}
-                    onChange={(e) => {
-                        setName(e.target.value);
-                    }}
+                    onBlur={() => onBlurEvent(setIsEdit1)}
+                    onChange={e => setName(e.target.value)}
                     value={name}/> : name}</td>
 
             {/*<td>{this.props.categories.filter(category => category.id == this.props.product.category)[0].name || " - "}</td>*/}
@@ -53,12 +52,8 @@ const Product = (props) => {
             <td onClick={() => setIsEdit3(true)}>
                 {isEdit3 ? <input
                     autoFocus={true}
-                    onBlur={(e) => {
-                        setIsEdit3(false);
-                        setColor(e.target.value);
-                        props.onEditProduct({id: props.product.id, category, name, color});
-                    }}
-                    onChange={(e) => setColor(e.target.value)}
+                    onBlur={() => onBlurEvent(setIsEdit3)}
+                    onChange={e => setColor(e.target.value)}
                     value={color}/> : color}</td>
 
             <td>

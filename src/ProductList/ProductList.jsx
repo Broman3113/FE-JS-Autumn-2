@@ -15,7 +15,7 @@ const ProductList = (props) => {
                 </tr>
                 </thead>
                 <tbody>
-                {props.products.map((product, index) => <Product
+                {(props.filteredProducts || props.products).map((product, index) => <Product
                     key={product.id}
                     product={product}
                     categories={props.categories}

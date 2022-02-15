@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import './App.css';
 import ProductList from "./ProductList/ProductList";
 import AddProductModal from "./AddProductModal/AddProductModal";
@@ -39,6 +39,11 @@ const App = () => {
     const [categories, setCategories] = useState(InitialState.categories);
     const [products, setProducts] = useState(InitialState.products);
 
+    const [filteredProducts, setFilteredProducts] = useState(InitialState.products);
+
+    const [titleFilterValue, setTitleFilterValue] = useState('');
+    const [categoryFilterValue, setCategoryFilterValue] = useState('');
+
     const onDeleteProduct = useCallback((id) => {
         setProducts(products.filter(product => product.id !== id))
     }, [setProducts, products]);
@@ -74,8 +79,23 @@ const App = () => {
                 }
             })
         )
-    })
-
+    }, [setProducts, products])
+    useEffect(() => {
+        if (titleFilterValue.length || categoryFilterValue.length) {
+            let itemsToFilter = products;
+            if (titleFilterValue.length) itemsToFilter = itemsToFilter.filter(product => product.name.includes(titleFilterValue));
+            if (categoryFilterValue.length) {
+                let temp = categories.filter(category => category.name.includes(categoryFilterValue)).map(item => item.id).join('');
+                console.log(temp);
+                let regExp = new RegExp(`[${temp}]`, 'g');
+                console.log(itemsToFilter.map(item => item.category.toString().search(regExp)));
+                itemsToFilter = itemsToFilter.filter(product => product.category.toString().search(regExp) > -1);
+            }
+            setFilteredProducts(itemsToFilter);
+        } else {
+            setFilteredProducts(null);
+        }
+    }, [categories, categoryFilterValue, products, titleFilterValue])
 
 
     return (
@@ -89,16 +109,23 @@ const App = () => {
                           onEditCategory={onEditCategory}/>
             <hr/>
             <button
-                onClick={() => setProducts([...products].sort((a, b) => a.name.localeCompare(b.name)))}>Filter
-                by Name
+                onClick={() => setProducts([...products].sort((a, b) => a.name.localeCompare(b.name)))}
+            >Sort by name
             </button>
             <button
                 // onClick={() => this.setState({products: [...this.state.products].sort((a, b) => this.state.categories.map(item => item.id == a.category ? item.name : false)[0].toString().localeCompare(this.state.categories.map(item => item.id == b.category ? item.name : false)[0].toString()))})}
                 onClick={() => setProducts([...products].sort((a, b) => a.category.toString().localeCompare(b.category.toString())))}
-            >Filter by Category
+            >Sort by Category
             </button>
             <hr/>
+            <label htmlFor="filterName">Filter By Name </label>
+            <input id="filterName" value={titleFilterValue} type="text" onChange={(e) => setTitleFilterValue(e.target.value)}/>
+
+            <label htmlFor="filterCategory">Filter By Category </label>
+            <input id="filterCategory" value={categoryFilterValue} type="text" onChange={(e) => setCategoryFilterValue(e.target.value)}/>
+            <hr/>
             <ProductList
+                filteredProducts={filteredProducts}
                 products={products}
                 categories={categories}
                 onDeleteProduct={onDeleteProduct}
