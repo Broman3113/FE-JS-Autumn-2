@@ -1,10 +1,16 @@
 import React, {useState} from 'react';
 import classes from './AddProductModal.module.css';
+import {useDispatch, useSelector} from "react-redux";
+import {addProductAction} from "../store/products/actions";
+import {selectCategories} from "../store/categories/selectors";
 
-const AddProductModal = (props) => {
+const AddProductModal = () => {
     const [category, setCategory] = useState(+'');
     const [name, setName] = useState('');
     const [color, setColor] = useState('');
+
+    const categories = useSelector(selectCategories);
+    const dispatch = useDispatch();
 
     const handleChange = (event) => {
         console.log(event.target.value)
@@ -13,8 +19,9 @@ const AddProductModal = (props) => {
     const onSubmitForm = (e) => {
         e.preventDefault();
         console.log({category, name, color});
-        props.onAddProduct({category, name, color})
+        dispatch(addProductAction({name, category, color}));
     }
+
 
     return (
         <div className={classes.modalForm}>
@@ -27,7 +34,7 @@ const AddProductModal = (props) => {
                         value={category}
                         onChange={handleChange}>
                     <option value="-">-</option>
-                    {props.categories.map(category => <option key={category.id}
+                    {categories.map(category => <option key={category.id}
                                                               value={category.id}>{category.name}</option>)}
                 </select>
 

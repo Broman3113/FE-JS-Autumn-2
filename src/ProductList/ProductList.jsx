@@ -1,7 +1,10 @@
 import Product from './Product/Product'
+import {useSelector} from "react-redux";
 
 const ProductList = (props) => {
-  return (
+    const products = useSelector(state => state.products.products);
+
+    return (
         <div className="productList">
             <table>
                 <caption>Click on any item to edit</caption>
@@ -15,13 +18,10 @@ const ProductList = (props) => {
                 </tr>
                 </thead>
                 <tbody>
-                {(props.filteredProducts || props.products).map((product, index) => <Product
+                {(props.filteredProducts || products).map((product, index) => <Product
                     key={product.id}
                     product={product}
-                    categories={props.categories}
                     index={index}
-                    onDeleteProduct={props.onDeleteProduct}
-                    onEditProduct={props.onEditProduct}
                 />)}
                 </tbody>
             </table>
