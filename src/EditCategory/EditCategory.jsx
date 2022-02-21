@@ -1,21 +1,34 @@
 import React, {useCallback, useState} from "react"
+import {selectCategories} from "../store/categories/selectors";
+import {useDispatch, useSelector} from "react-redux";
+import {editCategoryAction} from "../store/categories/actions";
 
-const EditCategory = (props) => {
+const EditCategory = () => {
     const [id, setId] = useState(+'');
     const [name, setName] = useState('');
+    const categories = useSelector(selectCategories);
+    const dispatch = useDispatch();
 
     const onSubmitForm = (e) => {
         e.preventDefault();
-        props.onEditCategory({id, name})
+        onEditCategory({id, name})
         console.log({id, name});
     }
 
+    const onEditCategory = useCallback((category) => {
+        dispatch(editCategoryAction(categories.map(stateCategories => {
+            if (category.id === stateCategories.id) {
+                return category;
+            } else {
+                return stateCategories;
+            }
+        })))
+    }, [categories, dispatch])
+
     const onSelectChange = useCallback((event) => {
-        setId(+event.target.value.split(',')[0]);
-        setName(event.target.value.split(',')[1]);
-        console.log(event.target.value.split(',')[1]);
-        console.log(id, name);
-    }, [id, name, setId, setName])
+        setId(+event.target.value);
+        setName(categories.filter((category) => category.id === +event.target.value)[0].name);
+    }, [categories])
 
     return (
         <div>
@@ -23,11 +36,11 @@ const EditCategory = (props) => {
                 <p>Select Category</p>
                 <select name="category"
                         id="category"
-                        value={props.categories.id}
+                        value={categories.id}
                         onChange={onSelectChange}>
                     <option value="-">-</option>
-                    {props.categories.map(category => <option key={category.id}
-                                                              value={[category.id, category.name]}>{category.name}</option>)}
+                    {categories.map(category => <option key={category.id}
+                                                              value={category.id}>{category.name}</option>)}
                 </select>
                 <input type="text"
                        value={name}
