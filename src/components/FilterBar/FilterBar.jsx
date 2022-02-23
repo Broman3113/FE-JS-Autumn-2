@@ -13,7 +13,7 @@ export const FilterBar = (props) => {
     useEffect(() => {
         if (titleFilterValue.length || categoryFilterValue.length) {
             let itemsToFilter = products;
-            if (titleFilterValue.length) itemsToFilter = itemsToFilter.filter(product => product.name.includes(titleFilterValue));
+            if (titleFilterValue.length) itemsToFilter = itemsToFilter.filter(product => product.title.includes(titleFilterValue));
             if (categoryFilterValue.length) {
                 let temp = categories.filter(category => category.name.includes(categoryFilterValue)).map(item => item.id).join('');
                 console.log(temp);
@@ -28,12 +28,14 @@ export const FilterBar = (props) => {
     }, [categories, categoryFilterValue, dispatch, products, titleFilterValue])
 
     return (
-        <div>
-            <label htmlFor="filterName">Filter By Name </label>
-            <input id="filterName" value={titleFilterValue} type="text" onChange={(e) => setTitleFilterValue(e.target.value)}/>
+        <div className={`functionBar`}>
+                <label htmlFor="filterName"><h3>Filter By Name</h3></label>
+                <input id="filterName" value={titleFilterValue} type="text"
+                       onChange={(e) => setTitleFilterValue(e.target.value)}/>
 
-            <label htmlFor="filterCategory">Filter By Category </label>
-            <input id="filterCategory" value={categoryFilterValue} type="text" onChange={(e) => setCategoryFilterValue(e.target.value)}/>
+                <label htmlFor="filterCategory"><h3>Filter By Category</h3></label>
+                <input id="filterCategory" value={categoryFilterValue} type="text"
+                       onChange={(e) => setCategoryFilterValue(e.target.value)}/>
         </div>
     )
 }

@@ -1,5 +1,10 @@
-table, tr, td {
-    border: 1px solid #000;
+table, tr {
+    border-top: 1px solid #495E6F;
+    border-bottom: 1px solid #495E6F;
+    border-collapse: collapse;
+    padding: 10px;
+}
+td{
     border-collapse: collapse;
     padding: 10px;
 }
@@ -15,7 +20,11 @@ table, tr, td {
     outline: 0;
     font-size: 1rem;
     text-align: center;
-    width: auto;
+    width: 100%;
     margin: 0;
-    padding: 0;
+    padding: 1px 5px;
+}
+.productList thead {
+    background-color: #364652;
+    color: #C4FDFC;
 }

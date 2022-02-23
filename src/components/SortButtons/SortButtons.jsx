@@ -9,12 +9,13 @@ export const SortButtons = () => {
         dispatch({type: type})
     }
     return (
-        <div>
-            <button
+        <div className="functionBar">
+            <h3>Sort Panel</h3>
+            <button style={{padding: '10px', margin: '10px'}}
                 onClick={() => onSortHandler(SORT_PRODUCT_BY_NAME_ACTION)}
             >Sort by name
             </button>
-            <button
+            <button style={{padding: '10px', margin: '10px'}}
                 // onClick={() => this.setState({products: [...this.state.products].sort((a, b) => this.state.categories.map(item => item.id == a.category ? item.name : false)[0].toString().localeCompare(this.state.categories.map(item => item.id == b.category ? item.name : false)[0].toString()))})}
                 onClick={() => onSortHandler(SORT_PRODUCT_BY_CATEGORY_ACTION)}
             >Sort by Category

@@ -31,9 +31,9 @@ const EditCategory = () => {
     }, [categories])
 
     return (
-        <div>
+        <div className="functionBar">
             <form onSubmit={onSubmitForm}>
-                <p>Select Category</p>
+                <h3>Select Category</h3>
                 <select name="category"
                         id="category"
                         value={categories.id}

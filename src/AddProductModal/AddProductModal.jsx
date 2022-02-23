@@ -5,9 +5,13 @@ import {addProductAction} from "../store/products/actions";
 import {selectCategories} from "../store/categories/selectors";
 
 const AddProductModal = () => {
+
+
     const [category, setCategory] = useState(+'');
-    const [name, setName] = useState('');
-    const [color, setColor] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState(+'');
+    const [units, setUnits] = useState(+'');
 
     const categories = useSelector(selectCategories);
     const dispatch = useDispatch();
@@ -18,30 +22,44 @@ const AddProductModal = () => {
     }
     const onSubmitForm = (e) => {
         e.preventDefault();
-        console.log({category, name, color});
-        dispatch(addProductAction({name, category, color}));
+        console.log({title, description, category, price, units});
+        dispatch(addProductAction({title, description, category, price, units}));
     }
 
 
     return (
-        <div className={classes.modalForm}>
+        <div className={`${classes.AddProductModal}`}>
             <form onSubmit={onSubmitForm}>
-                <p>Enter Name</p>
-                <input onBlur={(e) => setName(e.target.value)} type="text"/>
+                <div className="block">
+                    <h3>Enter Title</h3>
+                    <input onBlur={(e) => setTitle(e.target.value)} type="text"/>
 
-                <p>Enter Category</p>
-                <select name="category" id="category"
-                        value={category}
-                        onChange={handleChange}>
-                    <option value="-">-</option>
-                    {categories.map(category => <option key={category.id}
-                                                              value={category.id}>{category.name}</option>)}
-                </select>
+                    <h3>Enter Description</h3>
+                    <input onBlur={(e) => setDescription(e.target.value)} type="text"/>
+                </div>
 
-                <p>Enter Color</p>
-                <input onBlur={(e) => setColor(e.target.value)} type="text"/>
+                <div className="block">
+                    <h3>Enter Category</h3>
+                    <select name="category" id="category"
+                            value={category}
+                            onChange={handleChange}>
+                        <option value="-">-</option>
+                        {categories.map(category => <option key={category.id}
+                                                            value={category.id}>{category.name}</option>)}
+                    </select>
+                </div>
+
+                <div className="block">
+                    <h3>Enter Price</h3>
+                    <input onBlur={(e) => setPrice(+e.target.value)} type="text"/>
+
+                    <h3>Enter Units</h3>
+                    <input onBlur={(e) => setUnits(+e.target.value)} type="text"/>
+                </div>
                 <br/>
-                <button>Submit</button>
+                <div style={{width: '100%'}}>
+                    <button >Submit</button>
+                </div>
             </form>
         </div>
     )

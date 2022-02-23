@@ -1,3 +1,19 @@
-.modalForm {
-
+.AddProductModal{
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.AddProductModal form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.wrapper{
+    text-align: center;
+    width: 20%;
+    margin: 0 auto;
+}
+.block {
+    
 }
