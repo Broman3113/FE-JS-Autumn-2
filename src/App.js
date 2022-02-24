@@ -8,7 +8,7 @@ import {useSelector} from "react-redux";
 import {SortButtons} from "./components/SortButtons/SortButtons";
 import {FilterBar} from "./components/FilterBar/FilterBar";
 import {selectCategories} from "./store/categories/selectors";
-import { Routes, Route, Link } from "react-router-dom";
+import {Routes, Route, Link} from "react-router-dom";
 import {TotalPrice} from "./components/TotalPrice/TotalPrice";
 import DeleteCategory from "./DeleteCategory/DeleteCategory";
 
@@ -35,11 +35,13 @@ const App = () => {
                 </button>
             </nav>
             <Routes>
-                <Route path="/*" element={<AddProductModal />}/>
-                <Route path="/editCategory" element={<EditCategory />}/>
-                <Route path="/deleteCategory" element={<DeleteCategory />}/>
-                <Route path="/sortPanel" element={<SortButtons />}/>
+                <Route path="/*" element={<AddProductModal/>}/>
+                <Route path="/editCategory" element={<EditCategory/>}/>
+                <Route path="/deleteCategory" element={<DeleteCategory/>}/>
+                <Route path="/sortPanel" element={<SortButtons/>}/>
+                <Route path="/sortPanel/:sortType" element={<SortButtons/>}/>
                 <Route path="/filterBar" element={<FilterBar setFilteredProducts={setFilteredProducts}/>}/>
+                <Route path="/filterBar/:titleFilterUrl" element={<FilterBar setFilteredProducts={setFilteredProducts}/>}/>
             </Routes>
             <ProductList filteredProducts={filteredProducts}/>
 
