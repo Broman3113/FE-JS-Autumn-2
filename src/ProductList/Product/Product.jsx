@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import './Product.css'
+import classes from './Product.modal.css'
 
 import {deleteProductAction, editProductAction} from "../../store/products/actions";
 import {selectCategories} from "../../store/categories/selectors";
@@ -12,11 +12,15 @@ const Product = (props) => {
     const dispatch = useDispatch();
 
     const [category, setCategory] = useState(props.product?.category || '');
-    const [name, setName] = useState(props.product?.name || '');
-    const [color, setColor] = useState(props.product?.color || '');
+    const [title, setTitle] = useState(props.product?.title || '');
+    const [description, setDescription] = useState(props.product?.description || '');
+    const [price, setPrice] = useState(props.product?.price || '');
+    const [units, setUnits] = useState(props.product?.units || '');
 
     const [isEdit1, setIsEdit1] = useState(false);
-    const [isEdit3, setIsEdit3] = useState(false);
+    const [isEdit2, setIsEdit2] = useState(false);
+    const [isEdit4, setIsEdit4] = useState(false);
+    const [isEdit5, setIsEdit5] = useState(false);
 
     const onDeleteProduct = useCallback((id) => {
         dispatch(deleteProductAction({id}));
@@ -37,21 +41,25 @@ const Product = (props) => {
         setCategory(parseInt(event.target.value));
         onEditProduct({
             id: props.product.id,
+            title,
+            description,
             category: parseInt(event.target.value),
-            name,
-            color,
+            price,
+            units,
         });
-    }, [onEditProduct, props.product.id, name, color])
+    }, [description, onEditProduct, price, props.product.id, title, units])
 
     const onBlurEvent = useCallback((setIsEdit) => {
         setIsEdit(false);
         onEditProduct({
             id: props.product.id,
+            title,
+            description,
             category,
-            name,
-            color,
+            price,
+            units,
         });
-    }, [category, color, name, onEditProduct, props.product.id])
+    }, [category, description, onEditProduct, price, props.product.id, title, units])
 
 
     return (
@@ -61,8 +69,16 @@ const Product = (props) => {
                 {isEdit1 ? <input
                     autoFocus={true}
                     onBlur={() => onBlurEvent(setIsEdit1)}
-                    onChange={e => setName(e.target.value)}
-                    value={name}/> : name}
+                    onChange={e => setTitle(e.target.value)}
+                    value={title}/> : title}
+            </td>
+
+            <td onClick={() => setIsEdit2(true)}>
+                {isEdit2 ? <input
+                    autoFocus={true}
+                    onBlur={() => onBlurEvent(setIsEdit2)}
+                    onChange={e => setDescription(e.target.value)}
+                    value={description}/> : description}
             </td>
 
             <td>
@@ -75,16 +91,24 @@ const Product = (props) => {
                 </select>
             </td>
 
-            <td onClick={() => setIsEdit3(true)}>
-                {isEdit3 ? <input
+            <td onClick={() => setIsEdit4(true)}>
+                {isEdit4 ? <input
                     autoFocus={true}
-                    onBlur={() => onBlurEvent(setIsEdit3)}
-                    onChange={e => setColor(e.target.value)}
-                    value={color}/> : color}
+                    onBlur={() => onBlurEvent(setIsEdit4)}
+                    onChange={e => setPrice(+e.target.value)}
+                    value={price}/> : price}
+            </td>
+
+            <td onClick={() => setIsEdit5(true)}>
+                {isEdit5 ? <input
+                    autoFocus={true}
+                    onBlur={() => onBlurEvent(setIsEdit5)}
+                    onChange={e => setUnits(+e.target.value)}
+                    value={units}/> : units}
             </td>
 
             <td>
-                <button onClick={() => onDeleteProduct(props.product.id)}>Delete</button>
+                <button className="btn-primary" onClick={() => onDeleteProduct(props.product.id)}>Delete</button>
             </td>
         </tr>
     )

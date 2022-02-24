@@ -7,14 +7,16 @@ export const SORT_PRODUCT_BY_NAME_ACTION = 'SORT_PRODUCT_BY_NAME_ACTION';
 export const SORT_PRODUCT_BY_CATEGORY_ACTION = 'SORT_PRODUCT_BY_CATEGORY_ACTION';
 export const FILTER_PRODUCT_BY_NAME_ACTION = 'FILTER_PRODUCT_BY_NAME_ACTION';
 
-export const addProductAction = ({name, category, color}) => {
+export const addProductAction = ({title, description, category, price, units}) => {
     return {
         type: ADD_PRODUCT_ACTION,
         product: {
             id: uuidv4(),
+            title,
+            description,
             category,
-            name,
-            color
+            price,
+            units,
         }
     }
 }

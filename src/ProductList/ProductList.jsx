@@ -1,21 +1,24 @@
 import Product from './Product/Product'
 import {useSelector} from "react-redux";
+import classes from './ProductList.module.css';
 
 const ProductList = (props) => {
     const products = useSelector(state => state.products.products);
 
     return (
-        <div className="productList">
+        <div className={classes.productList}>
+            <h2>Click on any item to edit</h2>
             <table>
-                <caption>Click on any item to edit</caption>
                 <thead>
-                <tr>
-                    <td>№</td>
-                    <td>Product Name</td>
-                    <td>Category</td>
-                    <td>Color</td>
-                    <td>Actions</td>
-                </tr>
+                    <tr>
+                        <td>№</td>
+                        <td>Title</td>
+                        <td>Description</td>
+                        <td>Category</td>
+                        <td>Price</td>
+                        <td>Units</td>
+                        <td>Actions</td>
+                    </tr>
                 </thead>
                 <tbody>
                 {(props.filteredProducts || products).map((product, index) => <Product
