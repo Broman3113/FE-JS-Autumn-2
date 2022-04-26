@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react"
+import React from "react"
 import {selectCategories} from "../store/categories/selectors";
 import {useDispatch, useSelector} from "react-redux";
 import {selectProducts} from "../store/products/selectors";

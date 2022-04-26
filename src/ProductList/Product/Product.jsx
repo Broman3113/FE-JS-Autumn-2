@@ -1,6 +1,5 @@
 import React, {useCallback, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import classes from './Product.modal.css'
 
 import {deleteProductAction, editProductAction} from "../../store/products/actions";
 import {selectCategories} from "../../store/categories/selectors";

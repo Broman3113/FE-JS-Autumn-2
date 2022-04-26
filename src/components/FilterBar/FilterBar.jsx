@@ -6,7 +6,6 @@ import {useParams, useNavigate} from "react-router-dom";
 export const FilterBar = (props) => {
     const products = useSelector(state => state.products.products);
     const categories = useSelector(selectCategories)
-    const dispatch = useDispatch();
 
     const {titleFilterUrl} = useParams();
     const navigate = useNavigate();
@@ -17,7 +16,7 @@ export const FilterBar = (props) => {
 
 
     useEffect(() => {
-        if (titleFilterUrl || titleFilterValue.length || categoryFilterValue.length) {
+        if (titleFilterUrl || categoryFilterValue.length) {
             let itemsToFilter = products;
             if (titleFilterUrl) itemsToFilter = itemsToFilter.filter(product => product.title.includes(titleFilterUrl));
             if (categoryFilterValue.length) {
@@ -31,7 +30,7 @@ export const FilterBar = (props) => {
         } else {
             props.setFilteredProducts(null)
         }
-    }, [categories, categoryFilterValue, dispatch, products, titleFilterUrl, titleFilterValue])
+    }, [categories, categoryFilterValue, products, titleFilterUrl])
 
     const  onInputHandler = (e) => {
         setTitleFilterValue(e.target.value);
